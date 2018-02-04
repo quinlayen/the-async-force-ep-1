@@ -86,28 +86,31 @@ function filmListModule(){
         film.innerHTML=element.title
         filmList.appendChild(film);
         const planetArray = element.planets;
+        const mappedPlanets = element.planets.map(function(items){
         createRequest()
-
-    //list the planets that were in the movie
-        function createRequest(){
-        const oReq2 = new XMLHttpRequest();
             
-            function reqListener2(){
-                const data2 = JSON.parse(this.response);
-                const planetList = document.createElement('ul');
-                const planet = document.createElement('li');
-                planet.innerHTML=data2.name;
-                film.appendChild(planetList);
-                planetList.appendChild(planet);
-        
-            };
-        
-            
-            oReq2.addEventListener('load', reqListener2);
-            oReq2.open('GET', element.planets[0])
-            oReq2.send();
-                }
-
+            //list the planets that were in the movie
+            function createRequest(){
+                const oReq2 = new XMLHttpRequest();
+                
+                function reqListener2(){
+                    const data2 = JSON.parse(this.response);
+                    const planetList = document.createElement('ul');
+                    const planet = document.createElement('li');
+                    planet.innerHTML=data2.name;
+                    film.appendChild(planetList);
+                    planetList.appendChild(planet);
+                    
+                };
+                
+                
+                oReq2.addEventListener('load', reqListener2);
+                oReq2.open('GET', items)
+                oReq2.send();
+            }
+            return items
+        });//mappedPlanets close
+            return element
         });//mappedList close
         
     };
