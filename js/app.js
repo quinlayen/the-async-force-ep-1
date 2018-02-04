@@ -72,34 +72,42 @@ modulePerson14();
 
 function filmListModule(){
 
+
+    //array to hold planet lists
+
+    
     const oReq = new XMLHttpRequest();
     //list out the titles of the movies
     function reqListener(){
         const data = JSON.parse(this.response);
-        //console.log(data.results[0].planets);
         const filmList = document.getElementById('filmList');
-
         const mappedList = data.results.map(function(element){
         let film = document.createElement('li');
         film.innerHTML=element.title
         filmList.appendChild(film);
-   
+        const planetArray = element.planets;
+        createRequest()
+
+    //list the planets that were in the movie
+        function createRequest(){
         const oReq2 = new XMLHttpRequest();
-     //list the planets that were in the movie
+            
             function reqListener2(){
-                //console.log(this.response);
                 const data2 = JSON.parse(this.response);
                 const planetList = document.createElement('ul');
                 const planet = document.createElement('li');
                 planet.innerHTML=data2.name;
                 film.appendChild(planetList);
                 planetList.appendChild(planet);
-                console.log(element)
-            };//reqListener2 close
         
+            };
+        
+            
             oReq2.addEventListener('load', reqListener2);
-            oReq2.open('GET', "https://swapi.co/api/planets/2/")
+            oReq2.open('GET', element.planets[0])
             oReq2.send();
+                }
+
         });//mappedList close
         
     };
