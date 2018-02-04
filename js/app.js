@@ -32,6 +32,9 @@ oReq.send();
 modulePerson4();
 
 
+
+
+
 function modulePerson14(){
 
 const oReq = new XMLHttpRequest();
@@ -62,3 +65,31 @@ oReq.send();
 
 };
 modulePerson14();
+
+
+
+
+
+function filmListModule(){
+
+    const oReq = new XMLHttpRequest();
+
+    function reqListener(){
+        const data = JSON.parse(this.response);
+        console.log(data.results[0].planets);
+        const filmList = document.getElementById('filmList');
+
+        const mappedList = data.results.map(function(element){
+        let film = document.createElement('li');
+        film.innerHTML=element.title
+        filmList.appendChild(film);
+        });
+    };
+
+
+    oReq.addEventListener('load',reqListener);
+    oReq.open('GET', 'https://swapi.co/api/films/');
+    oReq.send();
+
+};
+filmListModule();
