@@ -1,34 +1,29 @@
 console.log('sanity check')
 
+function request(method, url, callback){
+    const oReq = new XMLHttpRequest();
+    oReq.addEventListener('load', callback)
+    oReq.open(method, url);
+    oReq.send();
+}
 
+const getUrl =  (category, categoryId) =>`https://swapi.co/api/${category}/${categoryId}`
 
 function modulePerson4(){
-const oReq = new XMLHttpRequest();
 
-function reqListener(){
+request('GET', getUrl('people', '4'), function() {
     const data = JSON.parse(this.responseText);
     const person4Name = data.name;
     document.getElementById('person4Name').innerHTML = person4Name;
 
-    const oReq2 = new XMLHttpRequest();
-
-        function reqListener2(){
+        request('GET', getUrl('planets', '4'), function(){
             const data2 = JSON.parse(this.responseText);
             const person4Homeworld = data2.name;
             document.getElementById('person4HomeWorld').innerHTML = person4Homeworld;
             
-        };
-
-        oReq2.addEventListener('load', reqListener2)
-        oReq2.open('GET', "https://swapi.co/api/planets/1/")
-        oReq2.send();
-};
-
-oReq.addEventListener('load', reqListener);
-oReq.open('GET', "https://swapi.co/api/people/4/");
-oReq.send();
-};
-
+        })
+    })
+    }; 
 modulePerson4();
 
 
@@ -80,6 +75,7 @@ function filmListModule(){
     //list out the titles of the movies
     function reqListener(){
         const data = JSON.parse(this.response);
+        console.log(this)
         const filmList = document.getElementById('filmList');
         const mappedList = data.results.map(function(element){
         let film = document.createElement('li');
